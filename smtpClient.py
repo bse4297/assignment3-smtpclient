@@ -10,6 +10,8 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
     # Create socket called clientSocket and establish a TCP connection with mailserver and port
 
     # Fill in start
+    clientSocket = socket(AF_INET, SOCK_STREAM)
+    clientSocket.connect((mailserver, port))
     # Fill in end
 
     recv = clientSocket.recv(1024).decode()
@@ -27,26 +29,56 @@ def smtp_client(port=1025, mailserver='127.0.0.1'):
 
     # Send MAIL FROM command and handle server response.
     # Fill in start
+    mailFrom = 'MAIL FROM: <bse4297+from@nyu.edu>\r\n'
+    clientSocket.send(mailFrom.encode())
+    recv2 = clientSocket.recv(1024).decode()
+    #print(recv2) 
+    #if recv2[:3] != '250':
+    #    print('250 reply not received from server.')
     # Fill in end
 
     # Send RCPT TO command and handle server response.
     # Fill in start
+    rcptTo = 'RCPT TO: <bse4297+to@nyu.edu>\r\n'
+    clientSocket.send(rcptTo.encode())
+    recv3 = clientSocket.recv(1024).decode()
+    #print(recv3) 
+    #if recv3[:3] != '250':
+    #    print('250 reply not received from server.')
     # Fill in end
 
     # Send DATA command and handle server response.
     # Fill in start
+    dataCmd = 'DATA\r\n'
+    clientSocket.send(dataCmd.encode())
+    recv4 = clientSocket.recv(1024).decode()
+    #print(recv4) 
+    #if recv4[:3] != '354':
+    #    print('354 reply not received from server.')
     # Fill in end
 
     # Send message data.
     # Fill in start
+    clientSocket.send(msg.encode())
     # Fill in end
 
     # Message ends with a single period, send message end and handle server response.
     # Fill in start
+    clientSocket.send(endmsg.encode())
+    recv5 = clientSocket.recv(1024).decode()
+    #print(recv5) 
+    #if recv5[:3] != '250':
+    #    print('250 reply not received from server.')
     # Fill in end
 
     # Send QUIT command and handle server response.
     # Fill in start
+    quitCmd = 'QUIT\r\n'
+    clientSocket.send(quitCmd.encode())
+    recv6 = clientSocket.recv(1024).decode()
+    #print(recv6) 
+    #if recv6[:3] != '221':
+    #    print('221 reply not received from server.')
     # Fill in end
 
 
